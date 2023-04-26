@@ -12,7 +12,7 @@ class Generator:
         self.not_found = []
         self.other_parcels = "J:\\Austin\\County & Cadastral\\Clips\\MailingListReference.shp"
         self.project = arcpy.mp.ArcGISProject("J:\\Austin\\Projects\\Mailing List\\Mailing List.aprx")
-        self.search_distance = f"{search_distance} Feet"
+        self.search_distance = search_distance
         self.search_string = search_string.upper()
         self.subject_parcel_path = f"{self.gdb}\\SubjectParcel"
 

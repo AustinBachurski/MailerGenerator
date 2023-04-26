@@ -38,14 +38,17 @@ Generates the Mailing List and Mailing List Map needed by Development Services.
     * Address
     * Tract ID
     * Assessor Number
-3. Enter your search criteria into the text box, separate multiple criteria with a semicolon - case insensitive.
+3. Select the buffer distance for the mailing list.
+    * 150 Feet
+    * 225 Feet
+4. Enter your search criteria into the text box, separate multiple criteria with a semicolon - case insensitive.
 
     *Examples*
     * Address - `201 1st Ave E`
     * Tract ID - `2821X18-KOT-17-W69-BLK57`
     * Assessor Number - `E001067`
-4. By default, the first search criteria will be converted to proper case and used to title the map layout as well as the filename, if you desire a different map title and filename, check the &nbsp;`Use Custom Map Name ->` checkbox and enter your title in the text box - CASE SENSITIVE!
-5. Click `Generate Mailer`, at which point the GUI will hang - ArcPy does not support multithreading, as a result the user interface will freeze while the geoprocessing work is being done.  Once complete, depending on the result the tool will do one of two things:
+5. By default, the first search criteria will be converted to proper case and used to title the map layout as well as the filename, if you desire a different map title and filename, check the &nbsp;`Use Custom Map Name ->` checkbox and enter your title in the text box - CASE SENSITIVE!
+6. Click `Generate Mailer`, at which point the GUI will hang - ArcPy does not support multithreading, as a result the user interface will freeze while the geoprocessing work is being done.  Once complete, depending on the result the tool will do one of two things:
     1. If your search string is not found in the specified field of the parcel data, a toast notification will display the field searched, and the search string.
     2. If your search string is found in the specified field of the parcel data, geoprocessing will run and generate two files:
         * The mailing list map in .pdf format.

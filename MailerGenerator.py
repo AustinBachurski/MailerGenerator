@@ -34,8 +34,8 @@ class Generator:
         arcpy.RecalculateFeatureClassExtent_management(self.mailing_list_parcels, store_extent=True)
         frame = self.project.listLayouts("Mailing List Map")[0].listElements("MAPFRAME_ELEMENT")[0]
         mailingListParcelsLayer = self.project.listMaps("Mailing List")[0].listLayers("Mailing List Parcels")[0]
-        frame.camera.setExtent(frame.getLayerExtent(mailingListParcelsLayer,
-                                                    selection_only=False, symbolized_extent=True))
+        frame.camera.setExtent(self.zoom_out(frame.getLayerExtent(mailingListParcelsLayer,
+                                                    selection_only=False, symbolized_extent=True)))
 
         for element in self.project.listLayouts("Mailing List Map")[0].listElements("TEXT_ELEMENT"):
             if element.name == "Date":
@@ -114,6 +114,12 @@ class Generator:
         else:
             return f"{self.field_selection()} = '{self.search_string.upper()}'"
 
+    def zoom_out(self, extent):
+        extent.XMin = extent.XMin * .9999
+        extent.XMax = extent.XMax * 1.0001
+        extent.YMin = extent.YMin * .9999
+        extent.YMax = extent.YMax * 1.0001
+        return extent
 
 if __name__ == "__main__":
 

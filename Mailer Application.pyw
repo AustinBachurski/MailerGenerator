@@ -1,3 +1,4 @@
+import arcpy
 import customtkinter as ctk
 import win11toast
 from showinfm import show_in_file_manager
@@ -32,10 +33,18 @@ class Mailer:
                                           offvalue=False)
         self.use_custom.pack(side=ctk.LEFT)
         self.custom_name.pack(side=ctk.LEFT, padx=5, fill=ctk.X, expand=True)
+        self.copy_parcel_button = ctk.CTkButton(master=self.name_frame,
+                                               text="Copy Parcel",
+                                               command=self.copy_parcel,
+                                               state=ctk.DISABLED,
+                                               width=12)
+        self.copy_parcel_button.pack(side=ctk.RIGHT)
         self.generate_button = ctk.CTkButton(master=self.name_frame,
                                              text="Generate Mailer",
-                                             command=self.display_result)
-        self.generate_button.pack(side=ctk.RIGHT)
+                                             command=self.display_result,
+                                             width=15)
+        self.generate_button.pack(side=ctk.RIGHT, padx=5)
+
 
     def activate_custom_name(self):
         if self.checkbox_state.get():
@@ -43,6 +52,18 @@ class Mailer:
         elif not self.checkbox_state.get():
             self.custom_name.configure(state=ctk.DISABLED)
 
+    def copy_parcel(self):
+        gdb = "I:/Users/Austin/Projects/Mailing List/Mailing List.gdb"
+        try:
+            arcpy.management.CopyFeatures(f"{gdb}/SubjectParcel",
+                                          f"{gdb}/{self.custom_name.get().replace(' ', '')}")
+        except arcgisscripting.ExecuteError as error:
+            win11toast.toast("Error encountered!\n"
+                             f"Error: {error}")
+        else:
+            win11toast.toast("Parcel Copied:\n",
+                             self.custom_name.get())
+                
     def display_result(self):
         if not self.query_box.get():
             self.query_box.configure(placeholder_text="You must enter your search criteria!")
@@ -54,13 +75,14 @@ class Mailer:
                                  f"Field was: {self.field_option.get()}\n"
                                  f"Search string was: {error}")
             else:
+                self.copy_parcel_button.configure(state=ctk.NORMAL)
                 win11toast.toast(f"Mailer has been generated as:\n{name}",
                                  on_click=lambda args: self.show_files(args, name))
 
     @staticmethod
     def show_files(_, name):
-        show_in_file_manager(f"J:\\Austin\\Maps\\Mailing List Map {name}.pdf")
-        show_in_file_manager(f"J:\\Austin\\Mailing Lists\\Mailing List {name}.xlsx")
+        show_in_file_manager(f"I:\\Users\\Austin\\Maps\\Mailing List Map {name}.pdf")
+        show_in_file_manager(f"I:\\Users\\Austin\\Mailing Lists\\Mailing List {name}.xlsx")
 
     def run_generator(self):
         import MailerGenerator
@@ -83,8 +105,8 @@ class Mailer:
 
 def main():
     root = ctk.CTk()
-    root.title("Mailer Generator")
-    root.geometry("600x110")
+    root.title("Mailer Generator - RESTART TOOL BETWEEN MAPS!")
+    root.geometry("700x110")
     Mailer(root)
     root.mainloop()
 

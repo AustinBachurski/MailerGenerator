@@ -5,13 +5,13 @@ from datetime import datetime
 class Generator:
     def __init__(self, field_string, search_distance, search_string, map_name_string):
         self.fieldString = field_string.upper()
-        self.gdb = "J:\\Austin\\Projects\\Mailing List\\Mailing List.gdb"
+        self.gdb = "I:\\Users\\Austin\\Projects\\Mailing List\\Mailing List.gdb"
         self.field_values = []
         self.mailing_list_parcels = f"{self.gdb}\\MailingListParcels"
         self.map_name_string = map_name_string
         self.not_found = []
-        self.other_parcels = "J:\\Austin\\County & Cadastral\\Clips\\MailingListReference.shp"
-        self.project = arcpy.mp.ArcGISProject("J:\\Austin\\Projects\\Mailing List\\Mailing List.aprx")
+        self.other_parcels = "I:\\Users\\Austin\\County & Cadastral\\Clips\\MailingListReference.shp"
+        self.project = arcpy.mp.ArcGISProject("I:\\Users\\Austin\\Projects\\Mailing List\\Mailing List.aprx")
         self.search_distance = search_distance
         self.search_string = search_string.upper()
         self.subject_parcel_path = f"{self.gdb}\\SubjectParcel"
@@ -47,7 +47,7 @@ class Generator:
     def export_pdf(self):
         arcpy.env.overwriteOutput = True
         self.project.listLayouts("Mailing List Map")[0].exportToPDF(
-            f"J:\\Austin\\Maps\\Mailing List Map {self.map_name()}.pdf")
+            f"I:\\Users\\Austin\\Maps\\Mailing List Map {self.map_name()}.pdf")
 
     def field_selection(self):
         select = {"ADDRESS": "AddressLin",
@@ -59,7 +59,7 @@ class Generator:
     def generate_spreadsheet(self):
         arcpy.env.overwriteOutput = True
         arcpy.TableToExcel_conversion(self.mailing_list_parcels,
-                                      f"J:\\Austin\\Mailing Lists\\Mailing List {self.map_name()}.xlsx")
+                                      f"I:\\Users\\Austin\\Mailing Lists\\Mailing List {self.map_name()}.xlsx")
 
     def mailing_lisp_parcels_selection(self):
         return arcpy.SelectLayerByLocation_management(in_layer=self.other_parcels,
